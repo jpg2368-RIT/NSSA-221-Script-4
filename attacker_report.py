@@ -33,6 +33,8 @@ def sort_key(item):
 
 def main(args):
     run("clear")
+    
+    # get path
     if len(args) != 2:
         if len(args) < 2:
             path = input("Enter logfile path: ")
@@ -41,8 +43,10 @@ def main(args):
     else:
         path = args[1]
     print(f"Processing {path}...")
+
     failed_ips_raw = proc_log(path)
-    ips = set(failed_ips_raw)
+    ips = set(failed_ips_raw) # get distinct ips
+
     entries = []
     for ip in ips:
         count = 0
@@ -56,6 +60,8 @@ def main(args):
                 count += 1
         entries.append((count, ip, country))
     entries.sort(key=sort_key)
+
+    # print report
     cur_date = run("date")
     print(f"\n Report - {cur_date}\n------------------------------------------")
     print("  Count\tIP\t\tCountry")
